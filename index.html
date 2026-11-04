@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberSafe — основы кибербезопасности</title>
+<style>
+:root {
+  --site-primary: #1458d4;
+  --site-secondary: #dceaff;
+  --site-background: #f4f7fc;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #15345f;
+  --site-on-background: #14213a;
+  --site-font-body: Inter, "Segoe UI", Arial, sans-serif;
+  --site-font-heading: Inter, "Segoe UI", Arial, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #151c2b);
+  --muted: light-dark(#5c6b82, #aab7ca);
+  --border: light-dark(#dce4f0, #303b50);
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { background-color: var(--site-background); color: var(--site-on-background); min-height: 100vh; border-radius: 0; }
+header { background: var(--site-primary); color: var(--site-on-primary); padding: calc(22px * var(--site-spacing-scale)) max(5vw, 22px); }
+.nav { max-width: 1100px; margin: auto; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.logo { font-weight: 900; letter-spacing: .5px; font-size: 1.25rem; }
+nav { display:flex; gap:8px; flex-wrap:wrap; }
+nav a { color: var(--site-on-primary); text-decoration:none; padding:9px 12px; border-radius:calc(10px * var(--site-radius-scale)); font-size:.92rem; }
+nav a:hover { background:rgba(255,255,255,.15); }
+.hero { max-width:1100px; margin:auto; padding:70px 22px 62px; display:grid; grid-template-columns:1.3fr .7fr; gap:40px; align-items:center; }
+.eyebrow { text-transform:uppercase; letter-spacing:2px; font-size:.78rem; font-weight:800; opacity:.8; }
+h1,h2,h3 { font-family:var(--site-font-heading); line-height:1.12; }
+h1 { font-size:calc(clamp(2.4rem, 5vw, 4.6rem) * var(--site-heading-scale)); margin:14px 0 18px; }
+h2 { font-size:calc(clamp(1.8rem, 3vw, 2.5rem) * var(--site-heading-scale)); margin:0 0 14px; }
+h3 { margin:0 0 10px; font-size:calc(1.2rem * var(--site-heading-scale)); }
+p { line-height:1.65; }
+.hero p { font-size:1.08rem; max-width:650px; }
+.btn { display:inline-block; border:0; background:var(--site-primary); color:var(--site-on-primary); padding:13px 18px; border-radius:calc(12px * var(--site-radius-scale)); font-weight:700; cursor:pointer; text-decoration:none; }
+.btn.secondary { background:var(--site-secondary); color:var(--site-on-secondary); }
+.hero .btn { margin:10px 8px 0 0; }
+.hero-art { border-radius:calc(24px * var(--site-radius-scale)); background:linear-gradient(145deg, var(--site-secondary), #b6d1ff); padding:28px; color:#12356d; box-shadow:0 20px 50px rgba(20,88,212,.15); }
+.shield { width:100%; max-width:260px; margin:0 auto; display:block; }
+main { max-width:1100px; margin:auto; padding:50px 22px; }
+section { scroll-margin-top:20px; margin-bottom:62px; }
+.section-intro { color:var(--muted); max-width:720px; margin-bottom:25px; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.card { background:var(--surface); border:1px solid var(--border); padding:24px; border-radius:calc(18px * var(--site-radius-scale)); }
+.card .emoji { font-size:1.8rem; margin-bottom:12px; display:block; }
+.tag { display:inline-block; font-size:.78rem; background:var(--site-secondary); color:var(--site-on-secondary); padding:5px 9px; border-radius:999px; font-weight:700; margin-bottom:10px; }
+.steps { counter-reset:step; }
+.steps .card { position:relative; padding-top:54px; }
+.steps .card:before { counter-increment:step; content:counter(step); position:absolute; top:20px; left:24px; width:26px; height:26px; display:grid; place-items:center; background:var(--site-primary); color:white; border-radius:50%; font-weight:800; }
+.quiz { background:var(--surface); border:1px solid var(--border); border-radius:calc(20px * var(--site-radius-scale)); padding:28px; }
+.question { font-weight:800; font-size:1.1rem; margin:12px 0; }
+.answers { display:grid; gap:10px; margin:18px 0; }
+.answers button { text-align:left; background:var(--site-background); color:var(--site-on-background); border:1px solid var(--border); padding:12px 15px; border-radius:10px; cursor:pointer; }
+.answers button:hover { border-color:var(--site-primary); }
+.answers button.correct { background:#d9f8e7; color:#125536; border-color:#54b783; }
+.answers button.wrong { background:#ffe3e3; color:#7d1e1e; border-color:#e88a8a; }
+#quiz-feedback { min-height:28px; font-weight:700; }
+.faq-item { border-bottom:1px solid var(--border); padding:16px 0; }
+.faq-item summary { cursor:pointer; font-weight:800; }
+.faq-item p { color:var(--muted); margin-bottom:0; }
+.search { width:100%; max-width:520px; padding:13px 15px; border:1px solid var(--border); border-radius:12px; background:var(--surface); color:var(--site-on-background); margin:12px 0 20px; font:inherit; }
+footer { background:var(--site-primary); color:var(--site-on-primary); padding:28px 22px; text-align:center; }
+.small { color:var(--muted); font-size:.9rem; }
+@media(max-width:760px) { .hero { grid-template-columns:1fr; padding-top:45px; } .hero-art { max-width:440px; } .grid { grid-template-columns:1fr; } nav { gap:2px; } nav a { padding:8px; font-size:.82rem; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <div class="nav">
+    <div class="logo">🛡 CyberSafe</div>
+    <nav>
+      <a href="#about">О кибербезопасности</a><a href="#threats">Угрозы</a><a href="#protect">Защита</a><a href="#quiz">Тест</a><a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+<div class="hero">
+  <div>
+    <div class="eyebrow">Цифровая грамотность начинается здесь</div>
+    <h1>Будь умнее.<br>Будь в безопасности.</h1>
+    <p>Кибербезопасность — это защита устройств, аккаунтов и личных данных от цифровых угроз. На этом сайте ты узнаешь, как распознавать опасность и уверенно пользоваться интернетом.</p>
+    <a class="btn" href="#about">Начать изучение</a>
+    <a class="btn secondary" href="#quiz">Проверить знания</a>
+  </div>
+  <div class="hero-art">
+    <svg class="shield" viewBox="0 0 260 280" role="img" aria-label="Щит цифровой безопасности">
+      <path d="M130 12 L228 48 V125 C228 192 184 237 130 266 C76 237 32 192 32 125 V48 Z" fill="#1458d4" stroke="#fff" stroke-width="7"/>
+      <path d="M130 43 L197 67 V124 C197 173 168 207 130 229 C92 207 63 173 63 124 V67 Z" fill="#dceaff"/>
+      <rect x="91" y="116" width="78" height="61" rx="12" fill="#1458d4"/>
+      <path d="M105 116 V98 A25 25 0 0 1 155 98 V116" fill="none" stroke="#1458d4" stroke-width="12"/>
+      <circle cx="130" cy="143" r="7" fill="#fff"/><path d="M130 149 V160" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <h3 style="text-align:center">Твои данные — твоя ответственность</h3>
+    <p style="text-align:center">Знания — первый уровень защиты.</p>
+  </div>
+</div>
+<main>
+<section id="about">
+  <h2>Что такое кибербезопасность?</h2>
+  <p class="section-intro">Это совокупность технологий, правил и действий, которые помогают защищать информацию и цифровые системы. Её главные цели — конфиденциальность, целостность и доступность данных.</p>
+  <div class="grid">
+    <article class="card"><span class="emoji">🔒</span><h3>Конфиденциальность</h3><p>Доступ к информации получают только те, кому он разрешён.</p></article>
+    <article class="card"><span class="emoji">🧩</span><h3>Целостность</h3><p>Данные не должны изменяться или повреждаться без разрешения.</p></article>
+    <article class="card"><span class="emoji">⚡</span><h3>Доступность</h3><p>Системы и информация должны быть доступны законным пользователям.</p></article>
+  </div>
+</section>
+<section id="threats">
+  <h2>Популярные киберугрозы</h2>
+  <p class="section-intro">Злоумышленники используют разные способы, чтобы получить доступ к аккаунтам, устройствам или данным.</p>
+  <div class="grid">
+    <article class="card"><span class="tag">Обман</span><h3>Фишинг</h3><p>Поддельные письма, сайты и сообщения, которые заставляют раскрыть пароль или данные карты.</p></article>
+    <article class="card"><span class="tag">Вредоносное ПО</span><h3>Вирусы и трояны</h3><p>Программы, которые могут красть информацию, повреждать файлы или управлять устройством.</p></article>
+    <article class="card"><span class="tag">Вымогательство</span><h3>Программы-вымогатели</h3><p>Шифруют файлы и требуют деньги за восстановление доступа.</p></article>
+    <article class="card"><span class="tag">Аккаунты</span><h3>Подбор паролей</h3><p>Попытки угадать или автоматически проверить украденные комбинации паролей.</p></article>
+    <article class="card"><span class="tag">Социальная инженерия</span><h3>Манипуляции</h3><p>Злоумышленник притворяется знакомым или сотрудником поддержки, чтобы вызвать доверие.</p></article>
+    <article class="card"><span class="tag">Сеть</span><h3>Небезопасный Wi-Fi</h3><p>В открытых сетях повышается риск перехвата данных и подключения к поддельным точкам доступа.</p></article>
+  </div>
+</section>
+<section id="protect">
+  <h2>Как защитить себя в интернете</h2>
+  <p class="section-intro">Несколько простых привычек значительно снижают риск взлома и потери данных.</p>
+  <div class="grid steps">
+    <article class="card"><h3>Используй уникальные пароли</h3><p>Создавай длинные пароли для разных аккаунтов. Удобно хранить их в менеджере паролей.</p></article>
+    <article class="card"><h3>Включи 2FA</h3><p>Двухфакторная аутентификация добавляет второй уровень защиты, например приложение-код.</p></article>
+    <article class="card"><h3>Проверяй ссылки</h3><p>Смотри на адрес сайта и отправителя. Не открывай подозрительные вложения.</p></article>
+    <article class="card"><h3>Обновляй устройства</h3><p>Устанавливай обновления системы и приложений — они часто закрывают уязвимости.</p></article>
+    <article class="card"><h3>Делай резервные копии</h3><p>Храни важные файлы в отдельном безопасном месте или облаке.</p></article>
+    <article class="card"><h3>Не делись секретами</h3><p>Никому не отправляй коды подтверждения, пароли и приватные данные.</p></article>
+  </div>
+</section>
+<section id="quiz">
+  <h2>Мини-тест</h2>
+  <p class="section-intro">Проверь, насколько хорошо ты усвоил основы. Выбери один ответ на каждый вопрос.</p>
+  <div class="quiz">
+    <div id="quiz-progress" class="tag">Вопрос 1 из 5</div>
+    <div class="question" id="quiz-question"></div>
+    <div class="answers" id="quiz-answers"></div>
+    <div id="quiz-feedback" aria-live="polite"></div>
+    <button class="btn" id="next-question" disabled>Следующий вопрос</button>
+    <button class="btn secondary" id="restart" style="display:none">Пройти ещё раз</button>
+  </div>
+</section>
+<section id="faq">
+  <h2>Частые вопросы</h2>
+  <p class="section-intro">Короткие ответы на вопросы, которые часто возникают у начинающих.</p>
+  <input class="search" id="faq-search" placeholder="Поиск по вопросам…" aria-label="Поиск по FAQ">
+  <div id="faq-list">
+    <div class="faq-item"><details><summary>Что такое двухфакторная аутентификация?</summary><p>Это вход с двумя разными подтверждениями: например, пароль и код из приложения или ключ безопасности.</p></details></div>
+    <div class="faq-item"><details><summary>Можно ли использовать один пароль везде?</summary><p>Не рекомендуется. Если один сервис будет взломан, злоумышленник может попробовать этот пароль на других сайтах.</p></details></div>
+    <div class="faq-item"><details><summary>Что делать, если я нажал на подозрительную ссылку?</summary><p>Не вводи данные и не скачивай файлы. Если ввёл пароль — смени его с безопасного устройства, заверши активные сеансы и включи 2FA. При необходимости проверь устройство защитным ПО.</p></details></div>
+    <div class="faq-item"><details><summary>Безопасно ли пользоваться общественным Wi-Fi?</summary><p>С осторожностью. Используй HTTPS-сайты, избегай входа в важные аккаунты при сомнениях и отключи автоматическое подключение к неизвестным сетям.</p></details></div>
+    <div class="faq-item"><details><summary>Что такое VPN?</summary><p>VPN создаёт зашифрованное соединение между устройством и VPN-сервером. Он может повысить приватность в сети, но не защищает от фишинга и вирусов сам по себе.</p></details></div>
+    <div class="faq-item"><details><summary>Нужно ли устанавливать антивирус?</summary><p>Защитные средства полезны, но важны также обновления, резервные копии и внимательность. Не скачивай программы из неизвестных источников.</p></details></div>
+  </div>
+</section>
+<section>
+  <h2>Главное правило</h2>
+  <div class="card" style="background:var(--site-secondary);color:var(--site-on-secondary)">
+    <h3>Остановись и проверь</h3>
+    <p>Если сообщение вызывает срочность, страх или обещает неожиданную выгоду — не торопись. Проверь информацию через официальный сайт или известный канал связи.</p>
+  </div>
+  <p class="small">Учебный материал. Он помогает освоить базовые привычки безопасности, но не заменяет профессиональную помощь при инциденте.</p>
+</section>
+</main>
+<footer>© 2026 CyberSafe · Учебный проект по программированию</footer>
+</div>
+<script>
+const questions = [
+ {q:"Что лучше всего защищает аккаунт?",a:["Один короткий пароль","Уникальный пароль и 2FA","Отправить пароль другу"],correct:1,ex:"Уникальный пароль и дополнительный фактор делают взлом сложнее."},
+ {q:"Что такое фишинг?",a:["Поддельное сообщение или сайт для кражи данных","Обновление приложения","Резервное копирование"],correct:0,ex:"Фишинг использует обман, чтобы выманить секретную информацию."},
+ {q:"Что делать с кодом подтверждения входа?",a:["Отправить тому, кто попросил","Опубликовать в чате","Никому не сообщать"],correct:2,ex:"Коды подтверждения — секрет. Их нельзя передавать другим."},
+ {q:"Зачем обновлять операционную систему?",a:["Чтобы закрывать уязвимости и улучшать защиту","Чтобы пароль стал короче","Обновления не нужны"],correct:0,ex:"Обновления часто исправляют известные проблемы безопасности."},
+ {q:"Как безопаснее скачивать программы?",a:["По первой ссылке из рекламы","С официального сайта или доверенного магазина","Из случайного сообщения"],correct:1,ex:"Официальные источники снижают риск загрузить вредоносную программу."}
+];
+let index=0, score=0, answered=false;
+const qEl=document.getElementById("quiz-question"), aEl=document.getElementById("quiz-answers"), feedback=document.getElementById("quiz-feedback"), next=document.getElementById("next-question"), progress=document.getElementById("quiz-progress"), restart=document.getElementById("restart");
+function renderQuestion(){
+ answered=false; const q=questions[index]; progress.textContent=`Вопрос ${index+1} из ${questions.length}`; qEl.textContent=q.q; aEl.innerHTML=""; feedback.textContent=""; next.disabled=true; next.style.display="inline-block"; restart.style.display="none";
+ q.a.forEach((answer,i)=>{const b=document.createElement("button"); b.textContent=answer; b.onclick=()=>choose(i,b); aEl.appendChild(b);});
+}
+function choose(i,button){
+ if(answered)return; answered=true; const q=questions[index]; const buttons=[...aEl.children]; buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add("correct");});
+ if(i===q.correct){score++;feedback.textContent="Верно! "+q.ex;}else{button.classList.add("wrong");feedback.textContent="Не совсем. "+q.ex;}
+ next.disabled=false; next.textContent=index===questions.length-1?"Показать результат":"Следующий вопрос";
+}
+next.onclick=()=>{if(!answered)return;if(index<questions.length-1){index++;renderQuestion();}else{progress.textContent="Тест завершён";qEl.textContent=`Твой результат: ${score} из ${questions.length}`;aEl.innerHTML="";feedback.textContent=score===questions.length?"Отлично! Ты хорошо знаешь основы.":"Хорошее начало — повтори разделы выше и попробуй ещё раз.";next.style.display="none";restart.style.display="inline-block";}};
+restart.onclick=()=>{index=0;score=0;renderQuestion();};
+renderQuestion();
+const search=document.getElementById("faq-search");
+search.addEventListener("input",()=>{const term=search.value.toLowerCase();document.querySelectorAll("#faq-list .faq-item").forEach(item=>{item.style.display=item.textContent.toLowerCase().includes(term)?"":"none";});});
+</script>
+</body>
+</html>
